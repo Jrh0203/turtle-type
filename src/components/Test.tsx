@@ -7,16 +7,31 @@ interface Props {
 	timer: number;
 	typedHistory: string[];
 	words: string[];
+	wpm: number;
+	pair: string;
+	started: boolean;
 }
 
 export default class Test extends Component<Props> {
 	render() {
-		const { typedWord, currWord, timer, words, typedHistory } = this.props;
+		const {
+			typedWord,
+			currWord,
+			timer,
+			words,
+			typedHistory,
+			wpm,
+			pair,
+			started,
+		} = this.props;
 		let extraLetters = typedWord.slice(currWord.length).split("");
 
 		return (
 			<div className="test">
-				<div className="timer">{timer}</div>
+				<div className="timer">
+					{wpm > 0 ? wpm : started ? "-" : <span>&nbsp;&nbsp;</span>}
+				</div>
+				{/* <div className="slowest">{pair}</div> */}
 				<div className="box">
 					{words.map((word, idx) => {
 						return (
@@ -29,7 +44,10 @@ export default class Test extends Component<Props> {
 										id="caret"
 										className="blink"
 										style={{
-											left: typedWord.length * 14.5833,
+											left:
+												typedWord.length *
+												14.5833 *
+												1.35,
 										}}>
 										|
 									</span>
@@ -67,6 +85,18 @@ export default class Test extends Component<Props> {
 						);
 					})}
 				</div>
+				<div className="timer2">
+					{started ? timer : <span>&nbsp;&nbsp;</span>}
+				</div>
+				<span className="hint">
+					{started ? (
+						<span>
+							<kbd>Tab</kbd> to restart test
+						</span>
+					) : (
+						<span>&nbsp;&nbsp;</span>
+					)}
+				</span>
 			</div>
 		);
 	}

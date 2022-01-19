@@ -38,11 +38,7 @@ export default class Result extends Component<Props> {
 							<td>{result.filter((x) => !x).length}</td>
 						</tr>
 						<tr>
-							<td colSpan={2} align="center">
-								<button onClick={this.props.resetTest}>
-									Restart
-								</button>
-							</td>
+							<td colSpan={2} align="center"></td>
 						</tr>
 					</tbody>
 				</table>

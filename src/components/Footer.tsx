@@ -54,57 +54,21 @@ export default class Footer extends Component {
 	render() {
 		return (
 			<div className="bottom-area">
-				<span className="hint">
-					<kbd>Tab</kbd> to restart test
-				</span>
+				<div className="bottomButtons">
+					<button onClick={() => {}}>Speedy</button>
+					<button onClick={() => {}}>Clunky</button>
+					<button onClick={() => {}}>Turtle</button>
+				</div>
 				<footer>
-					<a
-						target="_blank"
-						rel="noreferrer"
-						href="https://www.github.com/salmannotkhan/typing-test">
-						<span>&lt;/&gt;</span> github
-					</a>
 					<span>
 						created by{" "}
 						<a
 							target="_blank"
 							rel="noreferrer"
-							href="https://www.github.com/salmannotkhan">
-							@salmannotkhan
+							href="https://twitter.com/theJohnHerrick">
+							@theJohnHerrick
 						</a>
 					</span>
-					{this.state.showList ? (
-						<div className="contributor-list" onBlur={console.log}>
-							<h2>contributors</h2>
-							{this.state.contributors.map((contributor) => (
-								<a
-									className="contributor"
-									href={contributor.html_url}
-									target="_blank"
-									rel="noreferrer"
-									key={contributor.node_id}>
-									<img
-										height={50}
-										width={50}
-										src={contributor.avatar_url}
-										alt={`${contributor.login}'s avatar`}
-									/>
-									<div className="contributor-details">
-										<div>@{contributor.login}</div>
-										<div>
-											{contributor.contributions} commits
-										</div>
-									</div>
-								</a>
-							))}
-						</div>
-					) : null}
-					<button
-						onClick={(e) =>
-							this.setState({ showList: !this.state.showList })
-						}>
-						{this.state.showList ? "x close" : "{} contributors"}
-					</button>
 				</footer>
 			</div>
 		);

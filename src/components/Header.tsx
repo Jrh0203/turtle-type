@@ -26,7 +26,7 @@ interface Props {
 
 export default class Header extends Component<Props> {
 	componentDidMount() {
-		const theme = localStorage.getItem("theme") || "default";
+		const theme = localStorage.getItem("theme") || "mocha";
 		const time = parseInt(localStorage.getItem("time") || "60", 10);
 		document.body.children[1].classList.add(theme);
 		const selectedElements = document.querySelectorAll(
@@ -64,25 +64,11 @@ export default class Header extends Component<Props> {
 		return (
 			<header>
 				<a href="." className="brand">
-					typing-test
+					Tortoise Type
 				</a>
-				<div className="buttons">
-					{Object.entries(options).map(([option, choices]) => (
-						<div key={option} className={option}>
-							{option}:
-							{choices.map((choice: string) => (
-								<button
-									className="mini"
-									key={choice}
-									data-option={option}
-									value={choice}
-									onClick={(e) => this.handleOptions(e)}>
-									{choice}
-								</button>
-							))}
-						</div>
-					))}
-				</div>
+				<a href="." className="desc">
+					Tortoise Type
+				</a>
 			</header>
 		);
 	}

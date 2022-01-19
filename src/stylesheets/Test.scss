@@ -2,28 +2,38 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	position: absolute;
 	font-weight: 700;
 	height: 99.8%;
 	width: 50%;
+	max-width: 400px;
 }
 .timer {
-	font-size: 21pt;
+	font-size: 80pt;
 	margin: 5px;
 	color: var(--hl-color);
+	text-align: center;
+}
+.timer2 {
+	font-size: 30pt;
+	margin: 5px;
+	text-align: center;
 }
 .box {
-	font-size: 21pt;
+	font-size: 31pt;
 	overflow: hidden;
-	height: 93px;
+	height: 140px;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+	margin-bottom: 10px;
 	user-select: none;
+	margin-left: 40px;
 	.word {
 		position: relative;
 		margin: 0 5px 2px;
 		&.wrong {
-			text-decoration: 2px underline var(--hl-color);
+			text-decoration: 2px underline red;
 		}
 	}
 	.typedWord {
@@ -39,7 +49,7 @@
 		width: max-content;
 	}
 	span.wrong {
-		color: var(--hl-color) !important;
+		color: red !important;
 	}
 	.extra {
 		opacity: 0.6;
@@ -62,5 +72,22 @@
 		50% {
 			opacity: 0;
 		}
+	}
+}
+
+.hint {
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	text-align: center;
+	align-self: center;
+	bottom: 50px;
+	kbd {
+		background-color: var(--font-color);
+		color: var(--bg-color);
+		padding: 2.5px 5px;
+		margin: 10px;
+		border-radius: 3px;
+		font-size: 9pt;
 	}
 }

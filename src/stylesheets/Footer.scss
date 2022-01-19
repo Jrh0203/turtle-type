@@ -1,3 +1,15 @@
+.bottomButtons {
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	button {
+		font-size: 22pt;
+		width: 240;
+		margin: 20px;
+		padding: 5px 15px;
+		white-space: nowrap;
+	}
+}
 .bottom-area {
 	width: 50%;
 	justify-content: center;
@@ -17,14 +29,6 @@
 	}
 	footer {
 		width: 100%;
-		button,
-		& > a {
-			font-size: 12pt;
-			border: none;
-			width: 150px;
-			margin: 0;
-			padding: 0 10px;
-		}
 		.contributor-list {
 			display: flex;
 			flex-direction: column;
