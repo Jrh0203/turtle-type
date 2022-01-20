@@ -432,6 +432,7 @@ export default class App extends Component<{}, State> {
 			pair: "",
 			started: false,
 			wpmGraph: [],
+			selectedIdx: 0,
 		});
 
 		this.letterMapSum = {};
