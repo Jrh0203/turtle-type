@@ -1,19 +1,19 @@
 {
-	"short_name": "Typing Test",
-	"name": "Typing test in React",
+	"short_name": "Turtle Type",
+	"name": "An evil typing test",
 	"icons": [
 		{
-			"src": "favicon.png",
+			"src": "turtle.png",
 			"sizes": "64x64 32x32 24x24 16x16",
 			"type": "image/png"
 		},
 		{
-			"src": "favicon.png",
+			"src": "turtle.png",
 			"type": "image/png",
 			"sizes": "192x192"
 		},
 		{
-			"src": "favicon.png",
+			"src": "turtle.png",
 			"type": "image/png",
 			"sizes": "512x512"
 		}
