@@ -23,11 +23,32 @@ interface Contributor {
 	url: string;
 }
 
+interface Props {
+	changeSelected(x: number): void;
+	selectedIdx: number;
+	resetTest(): void;
+}
+
+type Options = {
+	modes: string[];
+};
+
+const messages: any = [
+	"a",
+	"Minimizes finger movement\nThis should speed you up",
+	"Maximizes finger movement\nThis should slow you down",
+	"Letter combinations you type slowly,\nThe longer you go the harder it gets",
+];
+
+const options: Options = {
+	modes: ["Speedy", "Clunky", "Turtle"],
+};
+
 interface State {
 	contributors: [Contributor] | [];
 	showList: boolean;
 }
-export default class Footer extends Component {
+export default class Footer extends Component<Props> {
 	state: State = {
 		contributors: [],
 		showList: false,
@@ -55,10 +76,27 @@ export default class Footer extends Component {
 		return (
 			<div className="bottom-area">
 				<div className="bottomButtons">
-					<button onClick={() => {}}>Speedy</button>
-					<button onClick={() => {}}>Clunky</button>
-					<button onClick={() => {}}>Turtle</button>
+					{Object.entries(options.modes).map(([idx, choices]) => (
+						<button
+							className={
+								"" + this.props.selectedIdx === idx
+									? "selected"
+									: "deselected"
+							}
+							onClick={() => {
+								this.props.resetTest();
+								this.props.changeSelected(parseInt(idx));
+							}}>
+							{choices}
+						</button>
+					))}
+
+					{/* <button onClick={() => {}}>Clunky</button>
+					<button onClick={() => {}}>Turtle</button> */}
 				</div>
+				<a href="." className="desc">
+					{messages[this.props.selectedIdx + 1]}
+				</a>
 				<footer>
 					<span>
 						created by{" "}

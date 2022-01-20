@@ -10,6 +10,10 @@
 		white-space: nowrap;
 	}
 }
+.selected {
+	color: var(--hl-color);
+	border-color: var(--hl-color);
+}
 .bottom-area {
 	width: 50%;
 	justify-content: center;
@@ -76,4 +80,21 @@
 			}
 		}
 	}
+}
+
+.desc {
+	font-size: 20pt;
+	margin-top: 10px;
+	align-self: center;
+	text-align: center;
+	font-style: italic;
+	opacity: 0.5;
+	white-space: pre;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: 700;
+	justify-content: center;
+	pointer-events: none;
 }

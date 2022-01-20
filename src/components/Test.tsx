@@ -21,7 +21,6 @@ export default class Test extends Component<Props> {
 			words,
 			typedHistory,
 			wpm,
-			pair,
 			started,
 		} = this.props;
 		let extraLetters = typedWord.slice(currWord.length).split("");

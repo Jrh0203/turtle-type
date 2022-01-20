@@ -9,3 +9,44 @@ table {
 .wrong {
 	color: var(--hl-color);
 }
+
+.share {
+	padding: 10px 15px;
+	font-size: 20px;
+	cursor: pointer;
+	text-decoration: none;
+	outline: none;
+	color: #fff;
+	background-color: #1da1f2;
+	border: none;
+	border-radius: 15px;
+	box-shadow: 0 7px #57bfff;
+
+	margin: 0;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.share:active {
+	margin-top: 4px;
+	box-shadow: 0 5px #57bfff;
+	transform: translateY(calc(-50%-4px));
+}
+
+.twitter {
+	vertical-align: text-bottom;
+}
+
+.share:hover {
+	color: #fff;
+}
+
+.center {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	height: 50px;
+	position: relative;
+}

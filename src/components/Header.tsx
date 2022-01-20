@@ -22,6 +22,7 @@ const options: Options = {
 
 interface Props {
 	changeTimeLimit(x: number): void;
+	selectedIdx: number;
 }
 
 export default class Header extends Component<Props> {
@@ -64,10 +65,10 @@ export default class Header extends Component<Props> {
 		return (
 			<header>
 				<a href="." className="brand">
-					Tortoise Type
+					Turtle Type
 				</a>
 				<a href="." className="desc">
-					Tortoise Type
+					Change the mode below
 				</a>
 			</header>
 		);

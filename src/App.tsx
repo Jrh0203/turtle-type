@@ -17,6 +17,9 @@ interface State {
 	startTime: number;
 	pair: string;
 	started: boolean;
+	changeSelected(x: number): void;
+	selectedIdx: number;
+	wpmGraph: any[];
 }
 export default class App extends Component<{}, State> {
 	letterSpot: any = {
@@ -98,6 +101,11 @@ export default class App extends Component<{}, State> {
 		startTime: 0,
 		pair: "",
 		started: false,
+		changeSelected: (x: number) => {
+			this.setState({ selectedIdx: x });
+		},
+		selectedIdx: 0,
+		wpmGraph: [],
 	};
 
 	startTimer = () => {
@@ -232,11 +240,13 @@ export default class App extends Component<{}, State> {
 				}
 				// console.log(this.letterMapSum);
 				// console.log(this.wordsOriginal.length);
+				const heuristic =
+					this.state.selectedIdx <= 1
+						? this.computeNiceness
+						: this.computeWordScore;
 				let scores: any = [];
 				for (let idx = 0; idx < this.wordsOriginal.length; idx += 1) {
-					const wordScore = this.computeWordScore(
-						this.wordsOriginal[idx]
-					);
+					const wordScore = heuristic(this.wordsOriginal[idx]);
 					if (wordScore > -10000)
 						scores.push([wordScore, this.wordsOriginal[idx]]);
 				}
@@ -248,7 +258,7 @@ export default class App extends Component<{}, State> {
 					}
 				};
 				scores = scores.sort(sortFunction);
-				let evil = true;
+				let evil = this.state.selectedIdx === 1 ? false : true;
 
 				let rand = Math.random();
 				let mostCommon: string = "";
@@ -326,6 +336,12 @@ export default class App extends Component<{}, State> {
 					const wpm = Math.floor(
 						((correctChars + spaces) * 60.0) / rollingElapsed / 5.0
 					);
+					this.setState({
+						wpmGraph: [
+							...this.state.wpmGraph,
+							{ x: elapsed, y: wpm },
+						],
+					});
 					console.log(wpm);
 					this.setState({ wpm: wpm });
 				}
@@ -415,6 +431,7 @@ export default class App extends Component<{}, State> {
 			startTime: 0,
 			pair: "",
 			started: false,
+			wpmGraph: [],
 		});
 
 		this.letterMapSum = {};
@@ -490,6 +507,7 @@ export default class App extends Component<{}, State> {
 						changeTimeLimit={(newLimit: number) =>
 							this.changeTimeLimit(newLimit)
 						}
+						selectedIdx={this.state.selectedIdx}
 					/>
 				) : null}
 				{timer !== 0 ? (
@@ -510,9 +528,17 @@ export default class App extends Component<{}, State> {
 						timeLimit={this.state.timeLimit}
 						spaces={this.words.indexOf(this.state.currWord)}
 						resetTest={() => this.resetTest()}
+						wpmGraph={this.state.wpmGraph}
+						selectedIdx={this.state.selectedIdx}
 					/>
 				)}
-				{!setTimer ? <Footer /> : null}
+				{!setTimer ? (
+					<Footer
+						changeSelected={this.state.changeSelected}
+						selectedIdx={this.state.selectedIdx}
+						resetTest={() => this.resetTest()}
+					/>
+				) : null}
 			</>
 		);
 	}
