@@ -43,7 +43,7 @@ export default class Result extends Component<Props> {
 		'"\n\nhttps://twitter.com/theJohnHerrick/status/1418260277217296387?s=20';
 	tempShareString = `.@theJohnHerrick made me type ${this.speed}. I typed ${
 		this.props.wpmGraph[this.props.wpmGraph.length - 1].y
-	} wpm. What about you?\n\nhttp://localhost:3000/`;
+	} wpm. What about you?\n\nhttp://turtletype.com/`;
 	share = () => {
 		console.log("sharing");
 		const urlencode = require("urlencode");

@@ -152,6 +152,7 @@ export default class App extends Component<{}, State> {
 			let spot2 = this.letterDist[word[i]];
 			if (num1 === num2) {
 				niceness -= Math.abs(spot1 - spot2) ** 2;
+				niceness += Math.random() / 2;
 			}
 			// if (i + 1 < word.length) {
 			// 	let num3 = this.letterSpot[word[i + 1]];
