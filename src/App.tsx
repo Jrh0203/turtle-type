@@ -154,6 +154,11 @@ export default class App extends Component<{}, State> {
 				niceness -= Math.abs(spot1 - spot2) ** 2;
 				niceness += Math.random() / 2;
 			}
+			if (this.state.wpm > 85) {
+				if (word[i] === word[i - 1]) {
+					niceness -= 100;
+				}
+			}
 			// if (i + 1 < word.length) {
 			// 	let num3 = this.letterSpot[word[i + 1]];
 			// 	if (num1 === num2 && num2 === num3) {
