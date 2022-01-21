@@ -268,8 +268,10 @@ export default class App extends Component<{}, State> {
 
 				let rand = Math.random();
 				let mostCommon: string = "";
+				let num = this.state.selectedIdx === 0 ? 0.0 : 1.0;
+				console.log(num);
 
-				if (rand < 1.0) {
+				if (rand < num) {
 					if (evil) {
 						mostCommon = scores[Math.floor(0)][1];
 						let maxPair = Object.keys(this.letterMapSum)

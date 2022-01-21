@@ -35,13 +35,13 @@ type Options = {
 
 const messages: any = [
 	"a",
-	"Minimizes finger movement\nThis should speed you up",
+	"Randomly gives you words\nThis is a good baseline",
 	"Maximizes finger movement\nThis should slow you down",
 	"Letter combinations you type slowly,\nThe longer you go the harder it gets",
 ];
 
 const options: Options = {
-	modes: ["Speedy", "Clunky", "Turtle"],
+	modes: ["Random", "Tricky", "Turtle"],
 };
 
 interface State {
