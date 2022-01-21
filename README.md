@@ -1,65 +1,11 @@
-# typing-test
+# Turtle Type
 
-![Deployment CI](https://github.com/salmannotkhan/typing-test/actions/workflows/node.js.yml/badge.svg)
+This is an evil typing test that gives you words to intentionally try and slow you down
 
-![typing-test(test)](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dv44pfwm7qsud43xheei.png)
+`Random` mode gives you random words
 
-NOTE: This is my recreation of already existing [monkeytype](https://monkeytype.com)
+`Tricky` mode tries to maximize the distance your fingers travel
 
-This site is currently live: [Visit Here](https://salmannotkhan.github.io/typing-test)
+`Turtle` mode learns as you type and figures out what letter combinations you struggle with and gives you words that it thinks you will take longer to type. This mode is super adaptive and really smart. If you try doing this mode with only a single finger on your right hand, it'll start giving you words where letters are on opposite ends of the keyboard. If you're bad at typing q's, expect to see a lot of them. If your right hand is faster than your left hand, expect most words to be on the left side of the keyboard
 
-## How to run locally
-
-```zsh
-git clone https://github.com/salmannotkhan/typing-test.git
-cd typing-test
-npm install
-npm start     # to start local server at `localhost:3000`
-npm run build # to create production build run
-```
-
-## Got new theme ideas?
-
-I'll be happy to merge your theme ideas into typing-test. To add new theme:
-
-1. Add theme colors into `src/stylesheets/themes.scss` in following format:
-
-```css
-.theme-name {
-	--bg-color: <background-color here> !important;
-	--font-color: <font-color here> !important;
-	--hl-color: <highlight-color here> !important;
-	--fg-color: <forground-color here> !important;
-}
-```
-
-> **Note:**  
-> `highlight-color` is used for caret, wrong characters, timer, selected and onhover colors  
-> `forground-color` is used for correctly typed characters  
-> <i>Using hex codes for colors is recommended</i>
-
-2.  Add theme name into `src/components/Header.tsx` in options:
-
-```tsx
-const options: Options = {
-	time: [15, 30, 45, 60, 120],
-	theme: [
-		"default",
-		"mkbhd",
-		"mocha",
-		"coral",
-		"ocean",
-		"azure",
-		"forest",
-		"rose-milk",
-		<theme-name>
-	],
-};
-```
-
-> **Important:**  
-> theme-name in `themes.scss` and `Header.tsx` should always match otherwise themes won't work
-
-3. Make a pull request
-
-4. If it's good enough to merge, I'll merge it
+To check it out, go to https://www.turtletype.com/
