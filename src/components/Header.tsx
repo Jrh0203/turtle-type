@@ -69,7 +69,7 @@ export default class Header extends Component<Props> {
 				</a>
 				<a href="." className="desc">
 					{
-						"Learns your weaknesses and\ngives you words you struggle to type"
+						"Personalized to be hard for how YOU type\n(oh and there's turtles)"
 					}
 				</a>
 			</header>
