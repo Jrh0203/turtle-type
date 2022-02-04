@@ -35,13 +35,12 @@ type Options = {
 
 const messages: any = [
 	"a",
-	"Randomly gives you words\nThis is a good baseline",
-	"Maximizes finger movement\nThis should slow you down",
-	"Letter combinations you type slowly,\nThe longer you go the harder it gets",
+	"Can you survive the turtles?",
+	"No turtles, just a timed test",
 ];
 
 const options: Options = {
-	modes: ["Random", "Tricky", "Turtle"],
+	modes: ["Turtle", "Boring"],
 };
 
 interface State {
@@ -53,24 +52,8 @@ export default class Footer extends Component<Props> {
 		contributors: [],
 		showList: false,
 	};
-	setContributors = async () => {
-		if (this.state.contributors.length !== 0) {
-			this.setState({ contributors: [] });
-			return;
-		}
-		const res = await fetch(
-			"https://api.github.com/repos/salmannotkhan/typing-test/contributors"
-		);
-		const data: [Contributor] = await res.json();
-		const filtered = data.filter(
-			(contributor) => contributor.login !== "salmannotkhan"
-		);
-		this.setState({ contributors: filtered });
-	};
 
-	componentDidMount() {
-		this.setContributors();
-	}
+	componentDidMount() {}
 
 	render() {
 		return (

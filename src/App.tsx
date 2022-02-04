@@ -5,6 +5,7 @@ import { words } from "helpers/words.json";
 import "stylesheets/themes.scss";
 import Header from "components/Header";
 import Footer from "components/Footer";
+import Turtle from "components/Turtle";
 
 interface State {
 	currWord: string;
@@ -20,6 +21,10 @@ interface State {
 	changeSelected(x: number): void;
 	selectedIdx: number;
 	wpmGraph: any[];
+	turtleTime: number;
+	turtles: any[];
+	turtlesBorn: number;
+	turtlesKilled: number;
 }
 export default class App extends Component<{}, State> {
 	letterSpot: any = {
@@ -80,7 +85,13 @@ export default class App extends Component<{}, State> {
 	};
 	wordsConst = [...words];
 	wordsOriginal = [...words];
-	words: any = words.sort(() => Math.random() - 0.5);
+	words: any = [
+		"the",
+		"turtles",
+		"are",
+		"coming",
+		...this.wordsOriginal.sort(() => Math.random() - 0.5).slice(0, 4),
+	];
 
 	letterMapSum: any = {};
 	letterMapCount: any = {};
@@ -102,10 +113,18 @@ export default class App extends Component<{}, State> {
 		pair: "",
 		started: false,
 		changeSelected: (x: number) => {
-			this.setState({ selectedIdx: x });
+			this.setState({
+				selectedIdx: x,
+				timeLimit: x === 1 ? 40 : 400,
+				timer: x === 1 ? 40 : 400,
+			});
 		},
 		selectedIdx: 0,
 		wpmGraph: [],
+		turtleTime: 0,
+		turtles: [],
+		turtlesBorn: 0,
+		turtlesKilled: 0,
 	};
 
 	startTimer = () => {
@@ -117,12 +136,77 @@ export default class App extends Component<{}, State> {
 				}
 			});
 		}, 1000);
+
 		this.setState({
 			setTimer: intervalId,
 			startTime: Date.now(),
 			started: true,
 		});
 		this.timeAgo[-1] = Date.now();
+	};
+	startTurtles = () => {
+		let newTurtles = [];
+		const addCount = this.state.wpm > 0 ? 10 : 50;
+		for (let i = 0; i < addCount; i += 1) {
+			newTurtles.push({
+				spawnTime: Date.now() + Math.random() * 10000,
+				angle: Math.random() * 360,
+			});
+		}
+		this.setState({
+			turtleTime: Date.now(),
+			turtles: newTurtles,
+			turtlesBorn: this.state.turtlesBorn + addCount,
+		});
+		const moveit = (startTime: number, innerThis: any) => {
+			if (this.state.startTime !== 0) {
+				//if browser doesn't support requestAnimationFrame, generate our own timestamp using Date:
+				const oldest =
+					(Date.now() - innerThis.state?.turtles[0]?.spawnTime) /
+					1000.0;
+				if (Date.now() - startTime < 1000000 && oldest < 14) {
+					// if duration not met yet
+					requestAnimationFrame(function (timestamp) {
+						// call requestAnimationFrame again with parameters
+						let additionalTurtles = [];
+						const elapsed = Date.now() - startTime;
+						const turtleCap = Math.max(
+							(elapsed / 1000.0) ** 1.55,
+							(elapsed / 1000.0) * 2
+						);
+						const turtlesToBirth = Math.floor(
+							turtleCap - innerThis.state.turtlesBorn
+						);
+						for (let i = 0; i < turtlesToBirth; i += 1) {
+							additionalTurtles.push({
+								spawnTime: Date.now(),
+								angle: Math.random() * 360,
+							});
+						}
+						innerThis.setState({
+							turtleTime: Date.now(),
+							turtles: [
+								...innerThis.state.turtles,
+								...additionalTurtles,
+							],
+							turtlesBorn:
+								innerThis.state.turtlesBorn + turtlesToBirth,
+						});
+						moveit(startTime, innerThis);
+					});
+				} else {
+					innerThis.setState({
+						timer: 1,
+						turtles: [],
+					});
+				}
+			} else {
+				innerThis.setState({
+					turtles: [],
+				});
+			}
+		};
+		moveit(Date.now(), this);
 	};
 	computeWordScore = (word: String) => {
 		let score = 0;
@@ -246,10 +330,11 @@ export default class App extends Component<{}, State> {
 				}
 				// console.log(this.letterMapSum);
 				// console.log(this.wordsOriginal.length);
-				const heuristic =
-					this.state.selectedIdx <= 1
-						? this.computeNiceness
-						: this.computeWordScore;
+				// const heuristic =
+				// 	this.state.selectedIdx <= 1
+				// 		? this.computeNiceness
+				// 		: this.computeWordScore;
+				const heuristic = this.computeWordScore;
 				let scores: any = [];
 				for (let idx = 0; idx < this.wordsOriginal.length; idx += 1) {
 					const wordScore = heuristic(this.wordsOriginal[idx]);
@@ -264,12 +349,14 @@ export default class App extends Component<{}, State> {
 					}
 				};
 				scores = scores.sort(sortFunction);
-				let evil = this.state.selectedIdx === 1 ? false : true;
+				// let evil = this.state.selectedIdx === 1 ? false : true;
+				let evil = true;
 
 				let rand = Math.random();
 				let mostCommon: string = "";
-				let num = this.state.selectedIdx === 0 ? 0.0 : 1.0;
-				console.log(num);
+				// let num = this.state.selectedIdx === 0 ? 0.0 : 1.0;
+				let num = 1.0;
+				// console.log(num);
 
 				if (rand < num) {
 					if (evil) {
@@ -316,6 +403,9 @@ export default class App extends Component<{}, State> {
 				//starts at word 0, time to finish typing the word at that index
 				this.timeAgo[currIdx] = Date.now();
 				const rollingWindow = 10;
+				if (currIdx === 3 && this.state.selectedIdx === 0) {
+					this.startTurtles();
+				}
 				if (elapsed >= 3) {
 					const spaces = Math.min(
 						this.words.indexOf(this.state.currWord),
@@ -331,16 +421,16 @@ export default class App extends Component<{}, State> {
 						if (r) correctChars += words[idx].length;
 						// console.log(r, words[idx]);
 					});
-					console.log(result);
+					// console.log(result);
 					let rollingElapsed =
 						(this.timeAgo[currIdx] -
 							this.timeAgo[
 								Math.max(currIdx - rollingWindow, -1)
 							]) /
 						1000.0;
-					console.log(rollingElapsed);
-					console.log(correctChars);
-					console.log(spaces);
+					// console.log(rollingElapsed);
+					// console.log(correctChars);
+					// console.log(spaces);
 					const wpm = Math.floor(
 						((correctChars + spaces) * 60.0) / rollingElapsed / 5.0
 					);
@@ -350,7 +440,7 @@ export default class App extends Component<{}, State> {
 							{ x: elapsed, y: wpm },
 						],
 					});
-					console.log(wpm);
+					// console.log(wpm);
 					this.setState({ wpm: wpm });
 				}
 				if (currIdx > 4) this.words.push(mostCommon);
@@ -413,6 +503,12 @@ export default class App extends Component<{}, State> {
 					currWordEl.children[idx + 1].classList.add(
 						currWord[idx] !== typedWord[idx] ? "wrong" : "right"
 					);
+					if (currWord[idx] === typedWord[idx]) {
+						this.setState({
+							turtles: this.state.turtles.slice(1),
+							turtlesKilled: this.state.turtlesKilled + 1,
+						});
+					}
 				});
 				break;
 		}
@@ -425,9 +521,15 @@ export default class App extends Component<{}, State> {
 		if (this.state.setTimer) {
 			clearInterval(this.state.setTimer);
 		}
-		this.words = [...this.wordsConst];
-		this.words = this.words.sort(() => Math.random() - 0.5);
-		this.words = this.words.slice(0, 8);
+		// this.words = [...this.wordsConst];
+		// this.words = this.words.sort(() => Math.random() - 0.5);
+		this.words = [
+			"the",
+			"turtles",
+			"are",
+			"coming",
+			...this.wordsOriginal.sort(() => Math.random() - 0.5).slice(0, 4),
+		];
 		this.wordsOriginal = [...this.wordsConst];
 		this.setState({
 			timer: this.state.timeLimit,
@@ -441,6 +543,10 @@ export default class App extends Component<{}, State> {
 			started: false,
 			wpmGraph: [],
 			selectedIdx: 0,
+			turtleTime: 0,
+			turtles: [],
+			turtlesBorn: 0,
+			turtlesKilled: 0,
 		});
 
 		this.letterMapSum = {};
@@ -466,7 +572,7 @@ export default class App extends Component<{}, State> {
 		selectedElements.forEach((el) => {
 			el.classList.add("selected");
 		});
-		const time = 40;
+		const time = 400;
 		this.setState({
 			timer: time,
 			timeLimit: time,
@@ -481,6 +587,7 @@ export default class App extends Component<{}, State> {
 			}
 		};
 		this.words = this.words.slice(0, 8);
+		console.log(this.words);
 		for (let i = 0; i < this.words.length; i += 1) {
 			let index = this.wordsOriginal.indexOf(this.words[i]);
 			if (index !== -1) {
@@ -506,11 +613,48 @@ export default class App extends Component<{}, State> {
 			() => this.resetTest()
 		);
 	}
+	angle = 290;
+	dist = 500;
+	killTime = 20;
 
 	render() {
 		const { setTimer, timer } = this.state;
 		return (
 			<>
+				{this.state.turtles.map((turtle) => (
+					<Turtle
+						turtleTransform={{
+							height: "40px",
+							width: "40px",
+							position: "fixed",
+							"z-index": "10",
+							top: "44%",
+							left: "48.5%",
+							transform: `translate(${
+								(Math.cos((turtle.angle * Math.PI) / 180) *
+									this.dist *
+									1 *
+									((this.state.turtleTime -
+										turtle.spawnTime) /
+										1000.0 -
+										this.killTime)) /
+								this.killTime
+							}px, ${
+								(Math.sin((turtle.angle * Math.PI) / 180) *
+									this.dist *
+									1 *
+									((this.state.turtleTime -
+										turtle.spawnTime) /
+										1000.0 -
+										this.killTime)) /
+								this.killTime
+							}px) rotate(${turtle.angle / 360.0}turn) scale(-1,${
+								turtle.angle > 90 && turtle.angle < 270 ? -1 : 1
+							})`,
+						}}
+					/>
+				))}
+
 				{!setTimer ? (
 					<Header
 						changeTimeLimit={(newLimit: number) =>
@@ -529,6 +673,7 @@ export default class App extends Component<{}, State> {
 						wpm={this.state.wpm}
 						pair={this.state.pair}
 						started={this.state.started}
+						selectedIdx={this.state.selectedIdx}
 					/>
 				) : (
 					<Result
@@ -539,6 +684,7 @@ export default class App extends Component<{}, State> {
 						resetTest={() => this.resetTest()}
 						wpmGraph={this.state.wpmGraph}
 						selectedIdx={this.state.selectedIdx}
+						turtlesKilled={this.state.turtlesKilled}
 					/>
 				)}
 				{!setTimer ? (

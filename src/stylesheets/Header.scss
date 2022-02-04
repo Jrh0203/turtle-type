@@ -12,12 +12,14 @@ footer {
 		flex-direction: column;
 		align-items: flex-end;
 	}
+	white-space: nowrap;
 }
 
 .brand {
 	font-size: 31pt;
 	align-self: center;
 	text-align: center;
+	white-space: nowrap;
 }
 
 header {
@@ -34,4 +36,5 @@ header {
 		flex-direction: column;
 		align-items: flex-end;
 	}
+	white-space: nowrap;
 }

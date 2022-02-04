@@ -68,7 +68,9 @@ export default class Header extends Component<Props> {
 					Turtle Type
 				</a>
 				<a href="." className="desc">
-					Change the mode below
+					{
+						"Learns your weaknesses and\ngives you words you struggle to type"
+					}
 				</a>
 			</header>
 		);

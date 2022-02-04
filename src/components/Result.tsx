@@ -33,6 +33,7 @@ interface Props {
 	resetTest: React.MouseEventHandler;
 	wpmGraph: any[];
 	selectedIdx: number;
+	turtlesKilled: number;
 }
 
 export default class Result extends Component<Props> {
@@ -41,9 +42,14 @@ export default class Result extends Component<Props> {
 		'"' +
 		"test" +
 		'"\n\nhttps://twitter.com/theJohnHerrick/status/1418260277217296387?s=20';
-	tempShareString = `.@theJohnHerrick made me type ${this.speed}. I typed ${
+	// tempShareString = `.@theJohnHerrick made me type ${this.speed}. I typed ${
+	// 	this.props.wpmGraph[this.props.wpmGraph.length - 1].y
+	// } wpm. What about you?\n\nhttp://turtletype.com/`;
+	tempShareString = `I survived ${
+		this.props.turtlesKilled
+	} turtles and typed ${
 		this.props.wpmGraph[this.props.wpmGraph.length - 1].y
-	} wpm. What about you?\n\nhttp://turtletype.com/`;
+	} wpm. Can you do better?\n\nhttp://turtletype.com/`;
 	share = () => {
 		console.log("sharing");
 		const urlencode = require("urlencode");
@@ -145,6 +151,11 @@ export default class Result extends Component<Props> {
 						data={this.data}
 					/>
 				</div>
+				{this.props.selectedIdx === 0 && (
+					<p className="turtleCount">
+						You survived {this.props.turtlesKilled} turtles
+					</p>
+				)}
 				<div className="center">
 					<button
 						className="share"

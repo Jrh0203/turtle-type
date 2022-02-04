@@ -10,6 +10,7 @@ interface Props {
 	wpm: number;
 	pair: string;
 	started: boolean;
+	selectedIdx: number;
 }
 
 export default class Test extends Component<Props> {
@@ -85,7 +86,19 @@ export default class Test extends Component<Props> {
 					})}
 				</div>
 				<div className="timer2">
-					{started ? timer : <span>&nbsp;&nbsp;</span>}
+					{started ? (
+						this.props.selectedIdx === 0 ? (
+							timer === 1 ? (
+								<span>&nbsp;&nbsp;</span>
+							) : (
+								400 - timer
+							)
+						) : (
+							timer
+						)
+					) : (
+						<span>&nbsp;&nbsp;</span>
+					)}
 				</div>
 				<span className="hint">
 					{started ? (

@@ -1,0 +1,19 @@
+.turtleBox {
+	object-fit: scale-down;
+	position: fixed;
+}
+
+.turtle {
+	height: 40px;
+	width: 40px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-10px, 0px);
+	transform: rotate(0.5turn);
+	transform: scale(1, -1);
+}
+
+.turtleTransform {
+	position: absolute;
+}
