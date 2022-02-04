@@ -42,12 +42,10 @@ export default class Result extends Component<Props> {
 		'"' +
 		"test" +
 		'"\n\nhttps://twitter.com/theJohnHerrick/status/1418260277217296387?s=20';
-	// tempShareString = `.@theJohnHerrick made me type ${this.speed}. I typed ${
-	// 	this.props.wpmGraph[this.props.wpmGraph.length - 1].y
-	// } wpm. What about you?\n\nhttp://turtletype.com/`;
-	tempShareString = `I survived ${
-		this.props.turtlesKilled
-	} turtles and typed ${
+	string1 = `.@theJohnHerrick made me type ${this.speed}. I typed ${
+		this.props.wpmGraph[this.props.wpmGraph.length - 1].y
+	} wpm. What about you?\n\nhttp://turtletype.com/`;
+	string2 = `I survived ${this.props.turtlesKilled} turtles and typed ${
 		this.props.wpmGraph[this.props.wpmGraph.length - 1].y
 	} wpm. Can you do better?\n\nhttp://turtletype.com/`;
 	share = () => {
@@ -58,8 +56,12 @@ export default class Result extends Component<Props> {
 		// 	action: "share",
 		// });
 		let url =
-			"https://twitter.com/intent/tweet?text=" +
-			urlencode(this.tempShareString);
+			"https://twitter.com/intent/tweet?text=" + urlencode(this.string1);
+		if (this.props.selectedIdx === 0) {
+			url =
+				"https://twitter.com/intent/tweet?text=" +
+				urlencode(this.string2);
+		}
 		window.open(url, "_blank");
 	};
 	options = {
