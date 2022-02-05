@@ -6,6 +6,7 @@ import "stylesheets/themes.scss";
 import Header from "components/Header";
 import Footer from "components/Footer";
 import Turtle from "components/Turtle";
+import { isMobile } from "react-device-detect";
 
 interface State {
 	currWord: string;
@@ -653,85 +654,100 @@ export default class App extends Component<{}, State> {
 
 	render() {
 		const { setTimer, timer } = this.state;
-		return (
-			<>
-				{this.state.turtles.map((turtle) => (
-					<Turtle
-						turtleTransform={{
-							height: "40px",
-							width: "40px",
-							position: "fixed",
-							"z-index": "10",
-							top: "44%",
-							left: "48.5%",
-							transform: `translate(${
-								(Math.cos((turtle.angle * Math.PI) / 180) *
-									this.dist *
-									1 *
-									((this.state.turtleTime -
-										turtle.spawnTime) /
-										1000.0 -
-										this.killTime)) /
-								this.killTime
-							}px, ${
-								(Math.sin((turtle.angle * Math.PI) / 180) *
-									this.dist *
-									1 *
-									((this.state.turtleTime -
-										turtle.spawnTime) /
-										1000.0 -
-										this.killTime)) /
-								this.killTime
-							}px) rotate(${turtle.angle / 360.0}turn) scale(-1,${
-								turtle.angle > 90 && turtle.angle < 270 ? -1 : 1
-							})`,
-						}}
-					/>
-				))}
+		if (window.outerWidth >= 600)
+			return (
+				<>
+					{this.state.turtles.map((turtle) => (
+						<Turtle
+							turtleTransform={{
+								height: "40px",
+								width: "40px",
+								position: "fixed",
+								"z-index": "10",
+								top: "44%",
+								left: "48.5%",
+								transform: `translate(${
+									(Math.cos((turtle.angle * Math.PI) / 180) *
+										this.dist *
+										1 *
+										((this.state.turtleTime -
+											turtle.spawnTime) /
+											1000.0 -
+											this.killTime)) /
+									this.killTime
+								}px, ${
+									(Math.sin((turtle.angle * Math.PI) / 180) *
+										this.dist *
+										1 *
+										((this.state.turtleTime -
+											turtle.spawnTime) /
+											1000.0 -
+											this.killTime)) /
+									this.killTime
+								}px) rotate(${
+									turtle.angle / 360.0
+								}turn) scale(-1,${
+									turtle.angle > 90 && turtle.angle < 270
+										? -1
+										: 1
+								})`,
+							}}
+						/>
+					))}
 
-				{!setTimer ? (
-					<Header
-						changeTimeLimit={(newLimit: number) =>
-							this.changeTimeLimit(newLimit)
+					{!setTimer ? (
+						<Header
+							changeTimeLimit={(newLimit: number) =>
+								this.changeTimeLimit(newLimit)
+							}
+							selectedIdx={this.state.selectedIdx}
+						/>
+					) : null}
+					{timer !== 0 ? (
+						<Test
+							words={this.words}
+							currWord={this.state.currWord}
+							typedWord={this.state.typedWord}
+							typedHistory={this.state.typedHistory}
+							timer={this.state.timer}
+							wpm={this.state.wpm}
+							pair={this.state.pair}
+							started={this.state.started}
+							selectedIdx={this.state.selectedIdx}
+							turtlesKilled={this.state.turtlesKilled}
+						/>
+					) : (
+						<Result
+							words={this.words}
+							typedHistory={this.state.typedHistory}
+							timeLimit={this.state.timeLimit}
+							spaces={this.words.indexOf(this.state.currWord)}
+							resetTest={() => this.resetTest()}
+							wpmGraph={this.state.wpmGraph}
+							selectedIdx={this.state.selectedIdx}
+							turtlesKilled={this.state.turtlesKilled}
+						/>
+					)}
+					{!setTimer ? (
+						<Footer
+							changeSelected={this.state.changeSelected}
+							selectedIdx={this.state.selectedIdx}
+							resetTest={() => this.resetTest()}
+							timer={this.state.timer}
+							typedHistory={this.state.typedHistory}
+						/>
+					) : null}
+				</>
+			);
+		else
+			return (
+				<>
+					<p className="computer">
+						{
+							"hi sorry you need a computer\nto play turtle type\n</3\n\ndon't worry it's worth it"
 						}
-						selectedIdx={this.state.selectedIdx}
-					/>
-				) : null}
-				{timer !== 0 ? (
-					<Test
-						words={this.words}
-						currWord={this.state.currWord}
-						typedWord={this.state.typedWord}
-						typedHistory={this.state.typedHistory}
-						timer={this.state.timer}
-						wpm={this.state.wpm}
-						pair={this.state.pair}
-						started={this.state.started}
-						selectedIdx={this.state.selectedIdx}
-						turtlesKilled={this.state.turtlesKilled}
-					/>
-				) : (
-					<Result
-						words={this.words}
-						typedHistory={this.state.typedHistory}
-						timeLimit={this.state.timeLimit}
-						spaces={this.words.indexOf(this.state.currWord)}
-						resetTest={() => this.resetTest()}
-						wpmGraph={this.state.wpmGraph}
-						selectedIdx={this.state.selectedIdx}
-						turtlesKilled={this.state.turtlesKilled}
-					/>
-				)}
-				{!setTimer ? (
-					<Footer
-						changeSelected={this.state.changeSelected}
-						selectedIdx={this.state.selectedIdx}
-						resetTest={() => this.resetTest()}
-						timer={this.state.timer}
-						typedHistory={this.state.typedHistory}
-					/>
-				) : null}
-			</>
-		);
+					</p>
+				</>
+			);
 	}
 }

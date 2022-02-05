@@ -46,3 +46,16 @@
 	--hl-color: #b33838 !important;
 	--fg-color: #3b8792 !important;
 }
+
+.computer {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	position: fixed;
+	top: 45%;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: 700;
+	justify-content: center;
+	white-space: pre-wrap;
+}
