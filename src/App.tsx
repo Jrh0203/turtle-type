@@ -184,7 +184,7 @@ export default class App extends Component<{}, State> {
 					(Date.now() - innerThis.state?.turtles[0]?.spawnTime) /
 					1000.0;
 				if (
-					(Date.now() - startTime < 1000000 && oldest < 14) ||
+					(Date.now() - startTime < 1000000 && oldest < 13.7) ||
 					innerThis.state?.turtles?.length === 0
 				) {
 					// if duration not met yet
