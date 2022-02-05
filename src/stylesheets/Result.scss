@@ -24,16 +24,12 @@ table {
 
 	margin: 0;
 	position: relative;
-	top: 50%;
-	left: 50%;
-	-ms-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
+	left: 39%;
 }
 
 .share:active {
 	margin-top: 4px;
 	box-shadow: 0 5px #57bfff;
-	transform: translateY(calc(-50%-4px));
 }
 
 .twitter {
