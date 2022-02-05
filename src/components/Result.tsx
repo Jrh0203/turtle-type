@@ -88,6 +88,14 @@ export default class Result extends Component<Props> {
 				ticks: {
 					color: "rgba(238, 218, 209, 1.0)",
 				},
+				title: {
+					display: false,
+					text: "wpm",
+					font: {
+						size: 20,
+					},
+					color: "rgba(238, 218, 209, 1.0)",
+				},
 			},
 			x: {
 				ticks: {

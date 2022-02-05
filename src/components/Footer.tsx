@@ -27,6 +27,8 @@ interface Props {
 	changeSelected(x: number): void;
 	selectedIdx: number;
 	resetTest(): void;
+	timer: number;
+	typedHistory: string[];
 }
 
 type Options = {
@@ -59,38 +61,53 @@ export default class Footer extends Component<Props> {
 		return (
 			<div className="bottom-area">
 				<div className="bottomButtons">
-					{Object.entries(options.modes).map(([idx, choices]) => (
+					{this.props.typedHistory.length === 0 &&
+						Object.entries(options.modes).map(([idx, choices]) => (
+							<button
+								className={
+									"" + this.props.selectedIdx === idx
+										? "selected"
+										: "deselected"
+								}
+								onClick={() => {
+									this.props.resetTest();
+									this.props.changeSelected(parseInt(idx));
+								}}>
+								{choices}
+							</button>
+						))}
+
+					{this.props.typedHistory.length !== 0 && (
 						<button
-							className={
-								"" + this.props.selectedIdx === idx
-									? "selected"
-									: "deselected"
-							}
+							className="again"
 							onClick={() => {
 								this.props.resetTest();
-								this.props.changeSelected(parseInt(idx));
 							}}>
-							{choices}
+							Play Again
 						</button>
-					))}
+					)}
 
 					{/* <button onClick={() => {}}>Clunky</button>
 					<button onClick={() => {}}>Turtle</button> */}
 				</div>
-				<a href="." className="desc">
-					{messages[this.props.selectedIdx + 1]}
-				</a>
-				<footer>
-					<span>
-						created by{" "}
-						<a
-							target="_blank"
-							rel="noreferrer"
-							href="https://twitter.com/theJohnHerrick">
-							@theJohnHerrick
-						</a>
-					</span>
-				</footer>
+				{this.props.typedHistory.length === 0 && (
+					<a href="." className="desc">
+						{messages[this.props.selectedIdx + 1]}
+					</a>
+				)}
+				{this.props.typedHistory.length === 0 && (
+					<footer>
+						<span>
+							created by{" "}
+							<a
+								target="_blank"
+								rel="noreferrer"
+								href="https://twitter.com/theJohnHerrick">
+								@theJohnHerrick
+							</a>
+						</span>
+					</footer>
+				)}
 			</div>
 		);
 	}

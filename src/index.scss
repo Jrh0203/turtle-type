@@ -1,10 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
-
+header:before {
+	content: "";
+	position: fixed;
+	width: 100%;
+	height: 999px;
+	top: -999px;
+}
 body {
 	margin: 0;
 	font-family: Inconsolata, monospace;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	background-color: #383f56 !important;
 }
 
 html,

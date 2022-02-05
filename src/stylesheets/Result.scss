@@ -46,9 +46,10 @@ table {
 
 .center {
 	padding-top: 10px;
-	padding-bottom: 10px;
+	padding-bottom: 0px;
 	height: 50px;
 	position: relative;
+	margin-bottom: -40px;
 }
 
 .turtleCount {

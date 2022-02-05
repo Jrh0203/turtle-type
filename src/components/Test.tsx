@@ -11,6 +11,7 @@ interface Props {
 	pair: string;
 	started: boolean;
 	selectedIdx: number;
+	turtlesKilled: number;
 }
 
 export default class Test extends Component<Props> {
@@ -23,6 +24,8 @@ export default class Test extends Component<Props> {
 			typedHistory,
 			wpm,
 			started,
+			selectedIdx,
+			turtlesKilled,
 		} = this.props;
 		let extraLetters = typedWord.slice(currWord.length).split("");
 
@@ -91,7 +94,7 @@ export default class Test extends Component<Props> {
 							timer === 1 ? (
 								<span>&nbsp;&nbsp;</span>
 							) : (
-								400 - timer
+								<span>&nbsp;&nbsp;</span>
 							)
 						) : (
 							timer

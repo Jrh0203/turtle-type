@@ -113,10 +113,28 @@ export default class App extends Component<{}, State> {
 		pair: "",
 		started: false,
 		changeSelected: (x: number) => {
+			if (x === 1) {
+				this.words = [
+					...this.wordsOriginal
+						.sort(() => Math.random() - 0.5)
+						.slice(0, 8),
+				];
+			} else {
+				this.words = [
+					"the",
+					"turtles",
+					"are",
+					"coming",
+					...this.wordsOriginal
+						.sort(() => Math.random() - 0.5)
+						.slice(0, 4),
+				];
+			}
 			this.setState({
 				selectedIdx: x,
 				timeLimit: x === 1 ? 40 : 400,
 				timer: x === 1 ? 40 : 400,
+				currWord: this.words[0],
 			});
 		},
 		selectedIdx: 0,
@@ -146,7 +164,7 @@ export default class App extends Component<{}, State> {
 	};
 	startTurtles = () => {
 		let newTurtles = [];
-		const addCount = this.state.wpm > 0 ? 10 : 50;
+		const addCount = this.state.wpm > 0 ? 10 : 20;
 		for (let i = 0; i < addCount; i += 1) {
 			newTurtles.push({
 				spawnTime: Date.now() + Math.random() * 10000,
@@ -164,15 +182,31 @@ export default class App extends Component<{}, State> {
 				const oldest =
 					(Date.now() - innerThis.state?.turtles[0]?.spawnTime) /
 					1000.0;
-				if (Date.now() - startTime < 1000000 && oldest < 14) {
+				if (
+					(Date.now() - startTime < 1000000 && oldest < 14) ||
+					innerThis.state?.turtles?.length === 0
+				) {
 					// if duration not met yet
 					requestAnimationFrame(function (timestamp) {
 						// call requestAnimationFrame again with parameters
 						let additionalTurtles = [];
 						const elapsed = Date.now() - startTime;
+						const totalChars = innerThis.state.typedHistory.reduce(
+							function (sum: number, ele: string) {
+								return ele.length + sum;
+							},
+							0
+						);
+						console.log(totalChars);
 						const turtleCap = Math.max(
-							(elapsed / 1000.0) ** 1.55,
-							(elapsed / 1000.0) * 2
+							(elapsed / 1000.0) ** 1.45,
+							Math.min(
+								(innerThis.state.turtlesKilled * 4.5) / 5.0,
+								((((innerThis.state.wpm * 5.0) / 60) *
+									elapsed) /
+									1000.0) *
+									(4.0 / 5)
+							)
 						);
 						const turtlesToBirth = Math.floor(
 							turtleCap - innerThis.state.turtlesBorn
@@ -406,7 +440,7 @@ export default class App extends Component<{}, State> {
 				if (currIdx === 3 && this.state.selectedIdx === 0) {
 					this.startTurtles();
 				}
-				if (elapsed >= 3) {
+				if (currIdx >= 3) {
 					const spaces = Math.min(
 						this.words.indexOf(this.state.currWord),
 						rollingWindow
@@ -674,6 +708,7 @@ export default class App extends Component<{}, State> {
 						pair={this.state.pair}
 						started={this.state.started}
 						selectedIdx={this.state.selectedIdx}
+						turtlesKilled={this.state.turtlesKilled}
 					/>
 				) : (
 					<Result
@@ -692,6 +727,8 @@ export default class App extends Component<{}, State> {
 						changeSelected={this.state.changeSelected}
 						selectedIdx={this.state.selectedIdx}
 						resetTest={() => this.resetTest()}
+						timer={this.state.timer}
+						typedHistory={this.state.typedHistory}
 					/>
 				) : null}
 			</>
