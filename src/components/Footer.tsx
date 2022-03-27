@@ -61,34 +61,17 @@ export default class Footer extends Component<Props> {
 		return (
 			<div className="bottom-area">
 				<div className="bottomButtons">
-					{this.props.typedHistory.length === 0 &&
-						Object.entries(options.modes).map(([idx, choices]) => (
+					<>
+						{this.props.typedHistory.length !== 0 && (
 							<button
-								className={
-									"" + this.props.selectedIdx === idx
-										? "selected"
-										: "deselected"
-								}
+								className="again"
 								onClick={() => {
 									this.props.resetTest();
-									this.props.changeSelected(parseInt(idx));
 								}}>
-								{choices}
+								Play Again
 							</button>
-						))}
-
-					{this.props.typedHistory.length !== 0 && (
-						<button
-							className="again"
-							onClick={() => {
-								this.props.resetTest();
-							}}>
-							Play Again
-						</button>
-					)}
-
-					{/* <button onClick={() => {}}>Clunky</button>
-					<button onClick={() => {}}>Turtle</button> */}
+						)}
+					</>
 				</div>
 				{this.props.typedHistory.length === 0 && (
 					<a href="." className="desc">
