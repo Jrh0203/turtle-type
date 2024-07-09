@@ -44,10 +44,10 @@ export default class Result extends Component<Props> {
 		'"\n\nhttps://twitter.com/theJohnHerrick/status/1418260277217296387?s=20';
 	string1 = `.@theJohnHerrick made me type ${this.speed}. I typed ${
 		this.props.wpmGraph[this.props.wpmGraph.length - 1].y
-	} wpm. What about you?\n\nhttp://turtletype.com/`;
+	} wpm. What about you?\n\nhttps://john.fun/turtles`;
 	string2 = `I survived ${this.props.turtlesKilled} turtles and typed ${
 		this.props.wpmGraph[this.props.wpmGraph.length - 1].y
-	} wpm. Can you do better?\n\nhttp://turtletype.com/`;
+	} wpm. Can you do better?\n\nhttps://john.fun/turtles`;
 	share = () => {
 		console.log("sharing");
 		const urlencode = require("urlencode");
