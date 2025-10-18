@@ -64,47 +64,6 @@ export default class Result extends Component<Props> {
 		}
 		window.open(url, "_blank");
 	};
-	options = {
-		responsive: true,
-		showLine: true,
-		plugins: {
-			legend: {
-				position: "top" as const,
-				display: false,
-			},
-			title: {
-				display: true,
-				font: {
-					size: 50,
-				},
-				text:
-					this.props.wpmGraph[this.props.wpmGraph.length - 1].y +
-					" wpm",
-				color: "rgba(238, 218, 209, 1.0)",
-			},
-		},
-		scales: {
-			y: {
-				ticks: {
-					color: "rgba(238, 218, 209, 1.0)",
-				},
-				title: {
-					display: false,
-					text: "wpm",
-					font: {
-						size: 20,
-					},
-					color: "rgba(238, 218, 209, 1.0)",
-				},
-			},
-			x: {
-				ticks: {
-					color: "rgba(238, 218, 209, 1.0)",
-				},
-			},
-		},
-		maintainAspectRatio: false,
-	};
 
 	labels = ["January", "February", "March", "April", "May", "June", "July"];
 	// --bg-color: #383e56 !important;
@@ -131,6 +90,54 @@ export default class Result extends Component<Props> {
 			if (r) correctChars += words[idx].length;
 		});
 		const wpm = ((correctChars + spaces) * 60) / timeLimit / 5;
+
+		const options = {
+			responsive: true,
+			showLine: true,
+			plugins: {
+				legend: {
+					position: "top" as const,
+					display: false,
+				},
+				title: {
+					display: true,
+					font: {
+						size: 50,
+					},
+					text:
+						this.props.selectedIdx === 0
+							? `You Survived ${this.props.turtlesKilled} Turtles`
+							: this.props.wpmGraph[this.props.wpmGraph.length - 1].y +
+							  " wpm",
+					color: "rgba(238, 218, 209, 1.0)",
+					padding: {
+						bottom: 30,
+					},
+				},
+			},
+			scales: {
+				y: {
+					ticks: {
+						color: "rgba(238, 218, 209, 1.0)",
+					},
+					title: {
+						display: false,
+						text: "wpm",
+						font: {
+							size: 20,
+						},
+						color: "rgba(238, 218, 209, 1.0)",
+					},
+				},
+				x: {
+					ticks: {
+						color: "rgba(238, 218, 209, 1.0)",
+					},
+				},
+			},
+			maintainAspectRatio: false,
+		};
+
 		return (
 			<div className="result">
 				{/* <table>
@@ -157,13 +164,13 @@ export default class Result extends Component<Props> {
 					<Scatter
 						width={500}
 						height={400}
-						options={this.options}
+						options={options}
 						data={this.data}
 					/>
 				</div>
 				{this.props.selectedIdx === 0 && (
 					<p className="turtleCount">
-						You survived {this.props.turtlesKilled} turtles
+						{this.props.wpmGraph[this.props.wpmGraph.length - 1].y} wpm
 					</p>
 				)}
 				<div className="center">

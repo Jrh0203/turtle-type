@@ -440,6 +440,8 @@ export default class App extends Component<{}, State> {
 				const rollingWindow = 10;
 				if (currIdx === 3 && this.state.selectedIdx === 0) {
 					this.startTurtles();
+					// Reset turtle count when turtles start spawning
+					this.setState({ turtlesKilled: 0 });
 				}
 				if (currIdx >= 3) {
 					const spaces = Math.min(
